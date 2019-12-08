@@ -36,11 +36,14 @@
     /_/  /_/        /_/     \__,_/ /____/ /____/  
 ## 项目开发更新进度
 ### 如果您觉得有帮助，请点右上角 "Star" 支持一下谢谢
-**查看更新记录请移步**
-[目前进度](https://gitee.com/ibyte/M-Pass/tree/master/update-record)
 
-### 服务模块划分
-[mPass 说明文档](https://gitee.com/ibyte/M-Pass/wikis/pages)
+## 服务模块划分
+**mPaaS后台管理-对象存储服务**
+![mPaaS后台管理-对象存储服务](https://oss-weslie.oss-cn-shanghai.aliyuncs.com/data/github_content_pic/202520_300742bc_1468963.png)
+**mPaaS后台管理-监控服务**
+![mPaaS后台管理-监控服务](https://oss-weslie.oss-cn-shanghai.aliyuncs.com/data/github_content_pic/203652_34bdd173_1468963.png)
+![2](https://oss-weslie.oss-cn-shanghai.aliyuncs.com/data/github_content_pic/203723_a461baf2_1468963.png)
+
 
 ## 项目总体架构图
 ![项目架构图](https://images.gitee.com/uploads/images/2019/1018/020143_0d434b4a_1468963.jpeg "mPass_Springcloud微服务架构.jpg")
@@ -58,18 +61,3 @@
 
 ## 项目详细部署图
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/1025/005737_ba969737_1468963.png "deploy.png")
-
-**交流群**
-<table border="0">
-    <tr>
-        <td>微信交流群：微信群(加微信入群)</td>
-        <td>微信公众号：码农架构</td>
-        <td>Q群：QQ交流群</td>
-    </tr>
-    <tr>&nbsp;</tr>
-    <tr>
-        <td><img title="微信交流群" src="https://images.gitee.com/uploads/images/2019/1111/175326_2a1374a3_1468963.png" height="200" width="200"/></td>
-        <td><img title="微信公众号-微技术栈" src="https://images.gitee.com/uploads/images/2019/1111/175334_5ee70c7b_1468963.jpeg" height="200" width="200"/></td>
-        <td><img title="QQ交流群" src="https://images.gitee.com/uploads/images/2019/1111/175611_70417f38_1468963.png" height="200" width="200"/></td>
-    </tr>
-</table>
