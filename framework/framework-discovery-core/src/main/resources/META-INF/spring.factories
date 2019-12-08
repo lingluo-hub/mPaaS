@@ -1,0 +1,11 @@
+# Bootstrap components
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+com.ibyte.framework.discovery.core.encryptor.CustomEncryptionBootstrapConfiguration
+# Autoconfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ibyte.framework.discovery.core.encryptor.CustomEncryptionBootstrapConfiguration
+# 初始配置
+com.ibyte.component.config.DefaultConfigFactory=\
+  com.ibyte.framework.discovery.core.license.LicensePropConfigFactory
+
+
