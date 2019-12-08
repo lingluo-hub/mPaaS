@@ -16,6 +16,7 @@
 	</a>
 	<a target="_blank" href="https://gitee.com/ibyte/M-Pass" title="API文档">
 		<img src="https://img.shields.io/badge/Api Docs-1.12.0-orange.svg" ></img>
+	</a>
 </p>
 
 基于SpringBoot2.x、SpringCloud并采用前后端分离的企业级微服务,多租户系统架构微服务开发平台 mPaaS（Microservice PaaS）为租户业务开发、测试、运营及运维开源框架，能有效降低技术门槛、减少研发成本、提升开发效率，协助企业快速搭建稳定高质量的微服务应用;同时还集合各种微服务治理功能和监控功能。模块包括:企业级的认证系统、开发平台、应用监控、慢sql监控、统一日志、单点登录、Redis分布式高速缓存、配置中心、分布式任务调度、接口文档、代码生成等等
