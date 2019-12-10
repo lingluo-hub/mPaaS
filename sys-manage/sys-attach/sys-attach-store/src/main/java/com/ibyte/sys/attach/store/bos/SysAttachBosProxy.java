@@ -1,21 +1,18 @@
-package com.ibyte.sys.attach.store.alioss;
+package com.ibyte.sys.attach.store.bos;
 
 import com.ibyte.sys.attach.store.AbstractSysAttachStoreProxy;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.Map;
 
 /**
- * 阿里云对象存储流代理实现
- *
+ * 百度云对象存储流代理实现
  * @author <a href="mailto:shangzhi.ibyte@gmail.com">iByte</a>
  * @since 1.0.1
  */
 @Service
-@Aspect
-public class SysAttachAliOssProxy extends AbstractSysAttachStoreProxy {
+public class SysAttachBosProxy extends AbstractSysAttachStoreProxy {
 
     @Override
     public void writeFile(InputStream inputSream, String filePath, Map<String, String> header) {

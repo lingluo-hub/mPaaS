@@ -2,8 +2,14 @@ package com.ibyte.attach.core.api.store;
 
 import com.ibyte.attach.core.dto.SysAttachUploadResultVO;
 import com.ibyte.attach.core.entity.SysAttachCatalog;
+import com.ibyte.attach.core.entity.SysAttachModuleLocation;
+import com.ibyte.attach.core.service.SysAttachCatalogService;
+import com.ibyte.attach.core.service.SysAttachModuleLocationService;
+import com.ibyte.common.exception.KmssServiceException;
+import com.ibyte.common.util.IDGenerator;
 import com.ibyte.sys.attach.support.store.ISysAttachStoreProxy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -19,6 +25,15 @@ import java.util.function.BiConsumer;
 @Slf4j
 @Service
 public class SysAttachStoreService {
+
+    @Autowired
+    protected SysAttachCatalogService sysAttachCatalogService;
+
+    @Autowired
+    protected SysAttachModuleLocationService sysAttachModuleLocationService;
+
+    @Autowired
+    protected SysAttachStoreFactory sysAttachStoreFactory;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/M/d");
 
@@ -40,16 +55,31 @@ public class SysAttachStoreService {
      */
     private SysAttachUploadResultVO doUpload(String entityName, BiConsumer<ISysAttachStoreProxy, String> writeFunction) {
         // 获取一级目录
+        SysAttachCatalog sysAttachCatalog = sysAttachCatalogService.findDefaultCatalog();
+        String catalog = sysAttachCatalog.getFdServerPath();
 
         // 获取模块目录
+        SysAttachModuleLocation moduleLocation =
+                entityName != null ? sysAttachModuleLocationService.findCurrentByEntity(entityName) : null;
+        String modelPath = moduleLocation != null ? moduleLocation.getFdModelPath() : "";
 
         // 生成文件ID
+        String fileId = IDGenerator.generateID();
 
         // 按日期生成相对路径
+        String filePath = "/" + formatter.format(LocalDate.now()) + "/" + fileId;
 
         // 获取默认存储扩展
-
+        ISysAttachStoreProxy storeProxy = sysAttachStoreFactory.getAttachStoreService().getProxyService();
         // 得到存储全路径
-        return null;
+        String fullPath = storeProxy.buildFullPath(catalog, modelPath, filePath);
+
+        try {
+            writeFunction.accept(storeProxy, fullPath);
+        } catch (Exception e) {
+            log.warn("附件上传写入文件系统失败", e);
+            throw new KmssServiceException("sys-attach:sys.attach.msg.error.SysAttachWriteFailed", e);
+        }
+        return new SysAttachUploadResultVO(fileId, filePath, fullPath, sysAttachCatalog, moduleLocation);
     }
 }

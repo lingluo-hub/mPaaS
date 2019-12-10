@@ -24,4 +24,14 @@ public interface ISysAttachStoreProxy {
      * @param header 文件http头
      */
     void writeFile(InputStream inputSream, String filePath, Map<String,String> header);
+
+
+    /**
+     * 拼接存储全路径
+     * @param catalog 一级目录
+     * @param modelPath 模块目录
+     * @param filePath 文件相对路径
+     * @return 存储全路径
+     */
+    String buildFullPath(String catalog, String modelPath, String filePath);
 }
