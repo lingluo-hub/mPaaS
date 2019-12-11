@@ -8,6 +8,7 @@ import com.ibyte.attach.core.service.SysAttachModuleLocationService;
 import com.ibyte.common.exception.KmssServiceException;
 import com.ibyte.common.util.IDGenerator;
 import com.ibyte.sys.attach.support.store.ISysAttachStoreProxy;
+import com.ibyte.sys.attach.support.store.SysAttachStoreFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,19 @@ public class SysAttachStoreService {
             throw new KmssServiceException("sys-attach:sys.attach.msg.error.SysAttachWriteFailed", e);
         }
         return new SysAttachUploadResultVO(fileId, filePath, fullPath, sysAttachCatalog, moduleLocation);
+    }
+
+    /**
+     * 获取默认的存储扩展点
+     */
+    public String getDefaultStoreLocation() {
+        return this.sysAttachStoreFactory.getDefaultLocation();
+    }
+
+    /**
+     * 获取存储实现
+     */
+    public ISysAttachStoreProxy getStoreProxy() {
+        return sysAttachStoreFactory.getAttachStoreService().getProxyService();
     }
 }

@@ -7,6 +7,7 @@ import com.ibyte.sys.attach.dto.slice.SysAttachUploadSliceBytesVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,19 +25,17 @@ public class SysAttachMainUploadApi implements ISysAttachMainUploadApi {
     @Autowired
     private SysAttachMainUploadOperationService sysAttachMainUploadOperationService;
 
-    /**
-     * 根据主文档添加附件
-     * @param uploadBytesVO
-     * @return
-     */
+
     @Override
+    @Transactional
     public String addByEntity(SysAttachUploadBytesVO uploadBytesVO) {
         return sysAttachMainUploadOperationService.addByEntity(uploadBytesVO);
     }
 
     @Override
+    @Transactional
     public String sliceByEntity(SysAttachUploadSliceBytesVO sliceBytesVO) {
-        return null;
+        return sysAttachMainUploadOperationService.sliceByEntity(sliceBytesVO);
     }
 
     @Override

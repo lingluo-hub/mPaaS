@@ -34,4 +34,13 @@ public interface ISysAttachStoreProxy {
      * @return 存储全路径
      */
     String buildFullPath(String catalog, String modelPath, String filePath);
+
+
+    /**
+     * 读取文件流
+     * @param filePath 包含扩展名（可以没有）的文件路径，用来确定文件的唯一位置，可直接用作OSS的对象名
+     * @param encryMethod 加密方式
+     * @return inputSream 文件输入流
+     */
+    InputStream readFile(String filePath,String encryMethod);
 }

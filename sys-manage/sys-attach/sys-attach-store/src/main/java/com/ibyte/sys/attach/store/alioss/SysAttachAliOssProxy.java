@@ -26,4 +26,9 @@ public class SysAttachAliOssProxy extends AbstractSysAttachStoreProxy {
     public String buildFullPath(String catalog, String modelPath, String filePath) {
         return null;
     }
+
+    @Override
+    public InputStream readFile(String filePath, String encryMethod) {
+        return null;
+    }
 }

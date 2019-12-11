@@ -135,7 +135,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 		doValidate(entity, AddGroup.class, Default.class);
 		repository.save(entity);
 		afterSaveOrUpdate(entity, true);
-		//TODO  日志 add-处理
 		applicationContext
 				.publishEvent(new EntityAddEvent(entity));
 	}
@@ -148,7 +147,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 		Optional<E> oEntity = findById(vo.getFdId());
 		if (oEntity.isPresent()) {
 			E entity = oEntity.get();
-			//TODO  日志 update-处理
 			voToEntity(vo, entity, false);
 			beforeUpdateVO(entity);
 			update(entity);
@@ -192,7 +190,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 		applicationContext
 				.publishEvent(new EntityDeleteEvent(entity));
 		repository.delete(entity);
-		//TODO  日志 delete-处理
 	}
 
 	// ==================== 查询 ====================
@@ -220,7 +217,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 			}
 			V vo = ReflectUtil.newInstance(getViewObjectClass());
 			entityToVo(entity, vo, false);
-			//TODO  日志 find-处理
 			return Optional.of(vo);
 		} else {
 			return Optional.empty();
@@ -233,7 +229,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 			throw new NoRecordException();
 		}
 		E entity = repository.getOne(id);
-		//TODO  日志 find-处理
 		return entity;
 	}
 
@@ -243,9 +238,6 @@ public abstract class AbstractServiceImpl<R extends IRepository<E>, E extends IE
 			return Optional.empty();
 		}
 		Optional<E> result = repository.findById(id);
-		if (result.isPresent()) {
-			//TODO  日志 find-处理
-		}
 		return result;
 	}
 

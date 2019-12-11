@@ -1,5 +1,6 @@
 package com.ibyte.sys.attach.store.server;
 
+import com.ibyte.common.exception.KmssRuntimeException;
 import com.ibyte.sys.attach.store.AbstractSysAttachStoreProxy;
 import com.ibyte.sys.attach.support.encry.ISysAttachEncry;
 import com.ibyte.sys.attach.support.encry.SysAttachEncryFactory;
@@ -7,10 +8,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -30,6 +28,14 @@ public class SysAttachServerProxy extends AbstractSysAttachStoreProxy {
     private ISysAttachEncry getEncryService() {
         ISysAttachEncry encryService = sysAttachEncryFactory.getAttachEncryService();
         return encryService;
+    }
+
+    /**
+     * 解密service
+     */
+    private ISysAttachEncry getDecryService(String encryMethod) {
+        ISysAttachEncry decryService = sysAttachEncryFactory.getAttachEncryService(encryMethod);
+        return decryService;
     }
 
 
@@ -67,5 +73,20 @@ public class SysAttachServerProxy extends AbstractSysAttachStoreProxy {
     @Override
     public String buildFullPath(String catalog, String modelPath, String filePath) {
         return null;
+    }
+
+    @Override
+    public InputStream readFile(String filePath, String encryMethod) {
+        File file = new File(filePath);
+        try {
+            if (file.exists()) {
+                InputStream decryptionInputStream = getDecryService(encryMethod).initDecryInputStream(new FileInputStream(file));
+                return decryptionInputStream;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new KmssRuntimeException("sys-attach:sys.attach.msg.error.SysAttachFileDecryFailed", e);
+        }
+        throw new KmssRuntimeException("sys-attach:sys.attach.msg.error.SysAttachFileNotFound");
     }
 }

@@ -8,6 +8,11 @@ package com.ibyte.sys.attach.constant;
 public interface SysAttachConstant {
 
     /**
+     * 实体机制数据中，附件机制数据的KEY
+     */
+    String SYS_ATTACH_MECHANISM_KEY = "attachment";
+
+    /**
      * 默认的存储实现
      */
     String SYS_ATTACH_DEFAULT_STORE = "sys.attach.store.currentStoreLocation";
