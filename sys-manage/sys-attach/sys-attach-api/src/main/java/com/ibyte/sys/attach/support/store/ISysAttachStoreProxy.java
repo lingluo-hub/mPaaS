@@ -43,4 +43,29 @@ public interface ISysAttachStoreProxy {
      * @return inputSream 文件输入流
      */
     InputStream readFile(String filePath,String encryMethod);
+
+    /**
+     * 是否支持追加写入文件，支持的扩展点重写此方法
+     */
+    default boolean supportAppendFile() {
+        return false;
+    }
+
+    /**
+     * 追加写入文件流，不存在则新建文件
+     * @param inputSream 文件输入流
+     * @param filePath 包含扩展名（可以没有）的文件路径，用来确定文件的唯一位置，可直接用作OSS的对象名
+     * @param header 文件http头
+     */
+    void appendFile(InputStream inputSream, String filePath, long position, Map<String,String> header);
+
+
+    /**
+     * 追加写入文件流，不存在则新建文件
+     * @param inputSream 文件输入流
+     * @param filePath 包含扩展名（可以没有）的文件路径，用来确定文件的唯一位置，可直接用作OSS的对象名
+     */
+    default void appendFile(InputStream inputSream, String filePath, long position) {
+        appendFile(inputSream, filePath, position, null);
+    }
 }

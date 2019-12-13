@@ -89,4 +89,37 @@ public class SysAttachServerProxy extends AbstractSysAttachStoreProxy {
         }
         throw new KmssRuntimeException("sys-attach:sys.attach.msg.error.SysAttachFileNotFound");
     }
+
+    @Override
+    public void appendFile(InputStream inputSream, String filePath, long position, Map<String, String> header) {
+        if (position == 0) {
+            this.writeFile(inputSream, filePath, header);
+            return;
+        }
+
+        // 当服务器上面不存在附件文件时候，抛异常
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new KmssRuntimeException("sys-attach:sys.attach.msg.error.SysAttachFileNotFound");
+        }
+        RandomAccessFile randomFile = null;
+        InputStream encryptionInputStream = null;
+        try {
+            randomFile = new RandomAccessFile(file, "rw");
+            randomFile.seek(position);
+
+            // 进行附件文件写操作
+            encryptionInputStream = getEncryService().initEncryInputStream(inputSream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            IOUtils.copy(encryptionInputStream, baos);
+            randomFile.write(baos.toByteArray());
+        } catch (IOException e) {
+            throw new KmssRuntimeException("sys-attach:sys.attach.msg.error.SysAttachFileAppendFailed", e);
+        } finally {
+            // 附件写操作完成后，依次关闭输出流和输入流，释放输出，输入流所在内存空间
+            IOUtils.closeQuietly(randomFile);
+            IOUtils.closeQuietly(encryptionInputStream);
+            IOUtils.closeQuietly(inputSream);
+        }
+    }
 }

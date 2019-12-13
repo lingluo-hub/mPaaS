@@ -31,4 +31,9 @@ public class SysAttachAliOssProxy extends AbstractSysAttachStoreProxy {
     public InputStream readFile(String filePath, String encryMethod) {
         return null;
     }
+
+    @Override
+    public void appendFile(InputStream inputSream, String filePath, long position, Map<String, String> header) {
+
+    }
 }

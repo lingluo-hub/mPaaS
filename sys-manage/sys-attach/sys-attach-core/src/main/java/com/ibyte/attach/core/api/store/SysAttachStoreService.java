@@ -97,4 +97,31 @@ public class SysAttachStoreService {
     public ISysAttachStoreProxy getStoreProxy() {
         return sysAttachStoreFactory.getAttachStoreService().getProxyService();
     }
+
+    /**
+     * 判断文件系统是否支持追加写入
+     */
+    public boolean fileStoreSupportAppend() {
+        ISysAttachStoreProxy storeProxy = sysAttachStoreFactory.getAttachStoreService().getProxyService();
+        return storeProxy.supportAppendFile();
+    }
+
+    /**
+     * 追加上传：追加写入
+     */
+    public void append(InputStream inputStream, String filePath, long position) {
+        ISysAttachStoreProxy storeProxy = sysAttachStoreFactory.getAttachStoreService().getProxyService();
+        storeProxy.appendFile(inputStream, filePath, position);
+    }
+
+    /**
+     * 追加上传：首次写入
+     * <P/>阿里云存储，在追加上传模式下，即使首个分片写入，也必须使用appendFile方法，否则后续分片append会报错
+     */
+    public SysAttachUploadResultVO appendFirst(InputStream inputStream, String entityName) {
+        // 定义写入文件系统的操作函数
+        BiConsumer<ISysAttachStoreProxy, String> appendOpt = (storeProxy, path) -> storeProxy.appendFile(inputStream, path, 0);
+        // 写入文件系统
+        return this.doUpload(entityName, appendOpt);
+    }
 }
